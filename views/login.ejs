@@ -1,0 +1,26 @@
+<%- include('partials/header') %>
+
+<h1>Log In</h1>
+
+<% if (typeof registered !== 'undefined' && registered) { %>
+    <P class="success">Account Created. Log in Here</P>
+<% } %>
+
+<%if (error) { %>
+    <p class="error"><%= error %></p>
+<% } %>
+
+<form method = "POST" action="/login">
+    <label for="username">Username</label>
+    <input type = "text" id="username" name="username" required>
+
+    <label for="password">Password</label>
+    <input type = "password" id="password" name="password" required>
+
+    <button type = "submit">Log In</button>
+
+</form>
+
+<p>Not Registered? <a href="/register">Register</a></p>
+
+<%- include('partials/footer') %>

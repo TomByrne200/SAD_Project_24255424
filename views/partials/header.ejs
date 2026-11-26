@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name = "description" content="<% typeof description !== 'undefined' ? description: 'BlogSpace is my SAD Project' %>">
+        <title><%= title %> | BlogSpace</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <!--Link to home-->
+                <a href="/">Home</a>
+
+                <!--Search Box-->
+                <form method = "GET" action="/search">
+                    <input
+                        type = "text"
+                        name = "q"
+                        placeholder="Search by Keyword..."
+                        aria-label="Search Posts"
+                    >
+                    <button type="submit">Search</button>
+                </form>
+
+                <% if(user) { %>
+                    <!--Navbar for logged in users-->
+                    <a href ="/posts/new">New Post</a>
+
+                    <span>Logged in as <%= user.username %></span>
+
+                    <!-- Log out button-->
+                    <form method = "POST" action= "/logout">
+                        <button type="submit">Log out</button>
+                    </form>
+                
+                <% } else {%>
+                    <!--Navbar for logged out users-->
+                    <a href="/login">Log in</a>
+                    <a href = "/register">Register</a>
+                <% }%>
+            </nav>
+        </header>
+        <main>
+        
