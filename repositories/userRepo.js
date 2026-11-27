@@ -23,5 +23,9 @@ class UserRepo{
             [username,email,password]
         );
     }
+
+    findByCredentials(username, password) {
+        return this.db.get(`SELECT * FROM users WHERE username ='${username}' AND password = '${password}'`); //INSECURE: SQL Injection: credential check straight to database using SQL query
+    }
 }
 module.exports = UserRepo;

@@ -36,17 +36,10 @@ class PostRepo{
         );
     }
 
-    search(term) {// search and posts title or body containing keyword
-        const pattern = `%${term}`;
+    search(term) {// search and posts title or body containing keyword; INSECURE: user input joined to SQL string
         return this.db.all(
-            `SELECT posts.*, users.username 
-            FROM posts 
-            JOIN users ON posts.user_id = users.id
-            WHERE posts.title LIKE ? 
-            OR posts.body LIKE ?
-            ORDER BY posts.created_at DESC`,
-            [pattern, pattern]
-        )
+            `SELECT posts.*, users.username FROM posts JOIN users ON posts.user_id = users.id WHERE posts.title LIKE '%${term}%' OR posts.body LIKE '%${term}%' ORDER BY posts.created_at DESC`,
+        );
     }
 }
 module.exports = PostRepo;
