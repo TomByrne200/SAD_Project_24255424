@@ -7,7 +7,7 @@ function requireLogin(req,res, next){ //allows logged in users only, others will
 
 function requireRole(role) { //allows users with set user role, others will be given 403 code
     return (req, res, next) => {
-        if (req.session.user) {
+        if (!req.session.user) {
             return res.redirect('/login');
         }
         if (req.session.user.role !== role){

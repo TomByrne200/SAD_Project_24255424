@@ -2,7 +2,7 @@ const express = require('express');
 const Database = require('../db/database');
 const PostRepo = require('../repositories/postRepo');
 const CommentRepo = require('../repositories/commentRepo');
-const {requireLogin} = require('../middleware/auth');
+const {requireLogin, requireRole} = require('../middleware/auth');
 
 const router = express.Router();
 const db = Database.getInstance();
@@ -58,8 +58,11 @@ router.post('/posts/:id/delete', requireLogin, async (req, res) => { //user can 
     if(!post){
         return res.status(404).send('Post not found');
     }
-    if(post.user_id !== req.session.user.id) { //checks session user with post owner to see if it can be deleted
-        return res.status(403).send('You can only delete posts you created')
+
+    const isOwner = post.user_id === req.session.user.id;
+    const isAdmin = req.session.user.role === 'admin';
+    if(!isOwner && !isAdmin){
+        return res.status(403).send('You can only delete posts you created'); // checks user role and ownership
     }
     await posts.delete(post.id);
     res.redirect('/');
@@ -91,5 +94,14 @@ router.get('/search', async (req, res) => { //search posts by given keyword
     const results = q ? await posts.search(q) : [];
     res.render('search', {title: `results for ${q}`, q, results, error:null});
 });
+
+router.post('/comments/:id/delete', requireRole('admin'), async (req, res) => { //admin role can delete a comment
+    const comment = await comments.findById(req.params.id);
+    if (!comment){
+        return res.status(404).send('comment not found');
+    }
+    await comments.delete(comment.id);
+    res.redirect(`/posts/${comment.post_id}`);
+}); 
 
 module.exports = router;

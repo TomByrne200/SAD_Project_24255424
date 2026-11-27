@@ -21,11 +21,15 @@ class CommentRepo{
         );
     }
 
-    delete(id){
+    delete(id){ //delete id
         return this.db.run(
             'DELETE FROM comments WHERE id = ?',
             [id]
         );
+    }
+
+    findById(id){// finds single comment by ID
+        return this.db.get('SELECT * FROM comments WHERE id = ?', [id]);
     }
 }
 module.exports = CommentRepo;

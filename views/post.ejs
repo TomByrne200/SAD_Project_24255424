@@ -8,7 +8,7 @@
     </h1>
     <p>by <%post.username %> . <%= post.create_at %></p>
 
-    <% if(user && user.id === post.user_id) { %>
+    <% if(user && (user.id === post.user_id || user.role === 'admin')) { %>
         <form method="POST" action="/posts/<%= post.id %>/delete">
             <button type="submit">
                 Delete post
@@ -30,6 +30,11 @@
         <div class="comment">
             <p><strong><%comment.username%></strong>. <%=comment.created_at %></p>
             <p><%=comment.body %></p>
+            <% if (user && user.role === 'admin') { %>
+                <form method="POST" action="/comments/<%=comment.id%>/delete">
+                    <button type="submit"> Delete</button>
+                </form>
+            <% } %>
         </div>
     <% }) %>
 
