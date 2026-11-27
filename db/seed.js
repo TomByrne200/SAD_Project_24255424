@@ -16,24 +16,24 @@ async function seed() {
 
         const admin = await db.run( //INSERT users to db schema
             'INSERT INTO users (username, email, password, role) VALUES ( ?, ?,?,?)',
-            ['admin', 'admin@blogface.com', 'AdminPwd1999!', 'admin']
+            ['admin', 'admin@blogspace.com', 'AdminPwd1999!', 'admin']
         );
 
         const bruno = await db.run(
             'INSERT INTO users (username, email, password) VALUES ( ?, ?,?)',
-            ['bruno', 'bruno@blogface.com', 'BrunoPwd2026!']
+            ['bruno', 'bruno@blogspace.com', 'BrunoPwd2026!']
         );
 
         const alex = await db.run(
             'INSERT INTO users (username, email, password) VALUES ( ?, ?,?)',
-            ['alex', 'alex@blogface.com', 'AlexPwd2008!']
+            ['alex', 'alex@blogspace.com', 'AlexPwd2008!']
         );
 
         console.log('Users inserted successfully');
 
         const adminPost = await db.run( //INSERT user posts
             'INSERT INTO posts (user_id, title, body) VALUES (?,?,?)',
-            [admin.lastID, 'WELCOME TO BLOGFACE', 'BLOG BLOG BLOG']
+            [admin.lastID, 'WELCOME TO BLOGSPACE', 'BLOG BLOG BLOG']
         );
 
         const brunoPost = await db.run(
