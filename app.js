@@ -26,9 +26,6 @@ app.use((req, res, next) => { // navigation bar is available to user
 }) 
 
 app.use(require('./routes/auth'));
-
-app.get('/', (req, res) => {
-    res.render('index', {title: 'Home'});
-});
+app.use(require('./routes/posts'));
 
 app.listen(PORT, () => console.log(`Running at http//localhost:${PORT}`));

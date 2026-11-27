@@ -1,0 +1,43 @@
+<%- include('partials/header')%>
+<article>
+    <h1>
+        <%= post.title %></a>
+    </h1>
+    <p>by <%post.username %> . <%= post.create_at %></p>
+
+    <% if(user && user.id === post.user_id) { %>
+        <form method="POST" action="/posts/<%= post.id %>/delete">
+            <button type="submit">
+                Delete post
+            </button>
+        </form>
+    <% } %>
+
+    <p class="post-body"><%= post.body %></p>
+</article>
+
+<sesction id="comments">
+    <h2>Comments (<%= comments.length %></h2>
+
+    <% if (comments.length === 0) { %>
+        <p>No Comments atm</p>
+    <% } %>
+
+    <% comments.forEach(comment => { %>
+        <div class="comment">
+            <p><strong><%comment.username%></strong>. <%=comment.created_at %></p>
+            <p><%=comment.body %></p>
+        </div>
+    <% }) %>
+
+    <% if (user) { %>
+        <form method="POST" action="/posts/<%= post.id%>/comments">
+            <label for="comment-body"> Add a comment</label>
+            <textarea id="comment-body" name=" body" rows="4" th:maxlength="1000" required></textarea>
+            <button type ="submit"> Post comment</button>
+        </form>
+    <% } else { %>
+        <p><a href="/login">log in to write a comment</a></p>
+    <% }%>
+</sesction>
+<%- include('partials/footer')%>

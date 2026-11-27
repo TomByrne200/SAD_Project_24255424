@@ -1,0 +1,27 @@
+<%- include('partials/header')%>
+    <h1>
+        New Post
+    </h1>
+
+    <% if (error) { %>}
+        <p class= "error"><%=error %></p>
+    <% } %>
+
+    <form method="POST" action="/posts">
+        <label for="title">
+            Title: 1-100 characters 
+        </label>
+
+        <label for="body">
+            Body: 1-5,000 characters 
+        </label>
+        <textarea id="body" name="body" rows="12" maxlength = "5000" required>
+            <%=body %> 
+        </textarea>
+
+        <button type="submit">
+            Post Blog
+        </button>
+        <a href="/">Cancel</a>
+    </form>
+<%- include('partials/footer')%>

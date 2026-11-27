@@ -3,7 +3,19 @@
     <h1>
         Latest Posts
     </h1>
-    <p>
-        Posts will appear here.
-    </p>
+
+    <% if (posts.length === 0) { %>}
+        <p>
+        No posts atm
+        </p>
+    <% } %>
+
+    <%posts.forEach(post => { %>
+        <article>
+            <h2>
+                <a href="/posts/<%= post.id %>"><%= post.title %></a>
+            </h2>
+            <p>by <%post.username %> . <%= post.create_at %></p>
+        </article>
+    <% }) %>
 <%- include('partials/footer')%>
