@@ -35,5 +35,18 @@ class PostRepo{
             [id]
         );
     }
+
+    search(term) {// search and posts title or body containing keyword
+        const pattern = `%${term}`;
+        return this.db.all(
+            `SELECT posts.*, users.username 
+            FROM posts 
+            JOIN users ON posts.user_id = users.id
+            WHERE posts.title LIKE ? 
+            OR posts.body LIKE ?
+            ORDER BY posts.created_at DESC`,
+            [pattern, pattern]
+        )
+    }
 }
 module.exports = PostRepo;

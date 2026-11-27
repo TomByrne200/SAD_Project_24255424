@@ -79,4 +79,17 @@ router.post('/posts/:id/comments', requireLogin, async (req, res) => { //adding 
     res.redirect(`/posts/${post.id}`);
 });
 
+router.get('/search', async (req, res) => { //search posts by given keyword
+    const q = (req.query.q || '').trim();
+
+    if(q.length > 100) {
+        return res.status(400).render('search', {
+            title: 'search', q, results: [], error: 'keyword must be 100 characters or less'
+        });
+    }
+
+    const results = q ? await posts.search(q) : [];
+    res.render('search', {title: `results for ${q}`, q, results, error:null});
+});
+
 module.exports = router;
