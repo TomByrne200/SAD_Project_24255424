@@ -1,12 +1,12 @@
 <%- include('partials/header')%>
 
-<p ide="search-banner" hidden></p>
+<p id="search-banner" hidden></p>
 <script src="/js/banner.js"></script>
 <article>
     <h1>
-        <%= post.title %></a>
+        <%= post.title %>
     </h1>
-    <p>by <%post.username %> . <%= post.create_at %></p>
+    <p>by <%=post.username %> . <%= post.created_at %></p>
 
     <% if(user && (user.id === post.user_id || user.role === 'admin')) { %>
         <form method="POST" action="/posts/<%= post.id %>/delete">
@@ -19,8 +19,8 @@
     <p class="post-body"><%= post.body %></p>
 </article>
 
-<sesction id="comments">
-    <h2>Comments (<%= comments.length %></h2>
+<section id="comments">
+    <h2>Comments (<%= comments.length %>)</h2>
 
     <% if (comments.length === 0) { %>
         <p>No Comments atm</p>
@@ -28,7 +28,7 @@
 
     <% comments.forEach(comment => { %>
         <div class="comment">
-            <p><strong><%comment.username%></strong>. <%=comment.created_at %></p>
+            <p><strong><%=comment.username%></strong>. <%=comment.created_at %></p>
             <p><%=comment.body %></p>
             <% if (user && user.role === 'admin') { %>
                 <form method="POST" action="/comments/<%=comment.id%>/delete">
@@ -41,11 +41,11 @@
     <% if (user) { %>
         <form method="POST" action="/posts/<%= post.id%>/comments">
             <label for="comment-body"> Add a comment</label>
-            <textarea id="comment-body" name=" body" rows="4" th:maxlength="1000" required></textarea>
+            <textarea id="comment-body" name="body" rows="4" maxlength="1000" required></textarea>
             <button type ="submit"> Post comment</button>
         </form>
     <% } else { %>
         <p><a href="/login">log in to write a comment</a></p>
     <% }%>
-</sesction>
+</section>
 <%- include('partials/footer')%>
