@@ -40,7 +40,7 @@ router.post('/register', async (req, res) =>{ //POST /register
     } catch (error){
         res.status(400).render('register', {
             title: 'Register', 
-            error: error.expose ? error.message : 'Registration failed',
+            error: error.message, //INSECURE displays database errors to user
             username,
             email
         });
@@ -93,6 +93,11 @@ router.get('/login', (req, res) => { //GET login
         error: null, 
         registered: req.query.registered === '1'
     });
+});
+
+router.get('/api/users', async (req, res) => { //INSECURE: returns all user info through json 
+    const users = await auth.users.findAll();
+    res.json(users);
 });
 
 module.exports = router;

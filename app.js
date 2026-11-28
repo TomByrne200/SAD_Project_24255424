@@ -28,4 +28,8 @@ app.use((req, res, next) => { // navigation bar is available to user
 app.use(require('./routes/auth'));
 app.use(require('./routes/posts'));
 
+app.use((err,req,res, next) => {//INSECURE: sends the stack trace to user browser
+    res.status(500).send(`<h1>ERROR</h1><pre>${err.stack}</pre>`);
+});
+
 app.listen(PORT, () => console.log(`Running at http//localhost:${PORT}`));
