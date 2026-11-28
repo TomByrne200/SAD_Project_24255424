@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Database = require('./database');
+const AuthService = require('../services/authService');
 
 async function seed() {
     const db = Database.getInstance(); //gets db connection
@@ -15,18 +16,18 @@ async function seed() {
         console.log('Database schema successfully created.');
 
         const admin = await db.run( //INSERT users to db schema
-            'INSERT INTO users (username, email, password, role) VALUES ( ?, ?,?,?)',
-            ['admin', 'admin@blogspace.com', 'AdminPwd1999!', 'admin']
+            'INSERT INTO users (username, email, password_hash, role) VALUES ( ?, ?,?,?)',
+            ['admin', 'admin@blogspace.com', await AuthService.hashPassword('AdminPwd1999!'), 'admin']
         );
 
         const bruno = await db.run(
-            'INSERT INTO users (username, email, password) VALUES ( ?, ?,?)',
-            ['bruno', 'bruno@blogspace.com', 'BrunoPwd2026!']
+            'INSERT INTO users (username, email, password_hash) VALUES ( ?, ?,?)',
+            ['bruno', 'bruno@blogspace.com', await AuthService.hashPassword('BrunoPwd2026!')]
         );
 
         const alex = await db.run(
-            'INSERT INTO users (username, email, password) VALUES ( ?, ?,?)',
-            ['alex', 'alex@blogspace.com', 'AlexPwd2008!']
+            'INSERT INTO users (username, email, password_hash) VALUES ( ?, ?,?)',
+            ['alex', 'alex@blogspace.com', await AuthService.hashPassword('AlexPwd2008!')]
         );
 
         console.log('Users inserted successfully');

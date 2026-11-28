@@ -1,12 +1,25 @@
+const argon2 = require('argon2');
+
+const HASH_OWASP = { // OWASP Password Storage Cheat Sheet
+    type: argon2.argon2id,
+    memoryCost: 19456, //19mib converted to kib
+    timeCost:2, //iterations
+    parallelism: 1
+}
 class AuthService {
     constructor(userRepo){
         this.users = userRepo;
     }
 
+    static hashPassword(password){ //returns hashed value and hash
+        return argon2.hash(password, HASH_OWASP);
+    }
+
 
     async register(username, email, password) {
         try {
-            const result = await this.users.create(username, email, password); //registers new user
+            const passwordHash = await AuthService.hashPassword(password);
+            const result = await this.users.create(username, email, passwordHash); //registers new user
             return result;
         } catch (error) {//sends generic message about existing credential
             if (error.code === 'SQLITE_CONSTRAINT') {
@@ -25,11 +38,9 @@ class AuthService {
             return null;
         }
 
-        if (user.password !== password){ //compares given password with stored password, returns null if not matching
-            return null;
-        }
+        const valid = await argon2.verify(user.password_hash, password);
 
-        return user;
+        return valid ? user : null;
     }
 }
 

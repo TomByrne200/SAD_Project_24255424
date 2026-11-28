@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/TomByrne200/SAD_Project_24255424#readme",
   "dependencies": {
+    "argon2": "^0.45.2",
     "connect-sqlite3": "^0.9.18",
     "ejs": "^7.0.2",
     "express": "^5.3.0",

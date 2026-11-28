@@ -49,9 +49,8 @@ router.post('/register', async (req, res) =>{ //POST /register
 
 router.post('/login', async (req, res) =>  { // POST /login + authentication
     try{
-        const{username, password} = req.body;
-
-        const user = await auth.login(username, password);
+        console.time('login');
+        console.timeEnd('login');
 
         if (!user) {
             return res.status(401).render('login', {

@@ -17,10 +17,10 @@ class UserRepo{
         );
     }
 
-    create(username, email, password) { //create new user and return the created user
+    create(username, email, passwordHash) { //create new user and return the created user
         return this.db.run(
-            'INSERT INTO users (username, email, password) VALUES (?,?,?)',
-            [username,email,password]
+            'INSERT INTO users (username, email, password_hash) VALUES (?,?,?)',
+            [username,email,passwordHash]
         );
     }
 }
